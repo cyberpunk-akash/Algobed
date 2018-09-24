@@ -9,6 +9,9 @@ import matplotlib.pyplot as plt
 import math
 import time
 import numpy as np
+from time import sleep
+import serial
+ser = serial.Serial('COM18', 9600) # Establish the connection on a specific port
 #import tensorflow as tf 
 
 show_animation = True
@@ -378,13 +381,16 @@ def main():
 
     print(grad)
 
-    from time import sleep
-    import serial
-    ser = serial.Serial('COM6', 9600) # Establish the connection on a specific port
-    #counter = 32 # Below 32 everything in ASCII is gibberish
-    for i in grad:
-        ser.write(grad[i])
-        sleep(3)
+
+    while True:
+
+     #increasing the counter and sending the data to the arduino
+         ser.write(str.encode(chr(70))) # Convert the decimal number to ASCII then send it to the Arduino
+         ser.write(str.encode(chr(76)))
+         ser.write(str.encode(chr(82)))
+
+     #it will read COM14 of arduino and print these values
+        print(ser.readline()) # Read the newest output from the Arduino
 
 
 
